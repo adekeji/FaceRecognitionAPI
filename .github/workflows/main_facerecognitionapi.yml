@@ -22,15 +22,25 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Use Python 3.10 for compatibility with dlib
+          python-version: '3.12' # Use Python 3.10 for compatibility with dlib
 
       - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
       
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake \
+          libopenblas-dev liblapack-dev \
+          libx11-dev libgtk-3-dev \
+          libboost-python-dev python3-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, etc.)
 
@@ -69,11 +79,8 @@ jobs:
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D3CC0C103B874B6EAB2EAFDC2C2E79F0 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0E6F3EE8C391455481E3A1294D0C16DF }}
-
-
-          
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_74EE5CCE0F994172A1E2F7F7419F2402 }}
-
+          
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
