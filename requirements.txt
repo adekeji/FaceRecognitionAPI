@@ -23,3 +23,5 @@ sniffio
 typing_extensions
 urllib3
 gunicorn
+
+# Tutorial server dependencies (built-in Python modules, no additional installs needed)
