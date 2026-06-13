@@ -139,7 +139,7 @@ Worker Nodes:
 sudo swapoff -a
 
 # Disable swap permanently
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+sudo sed -i '/ swap / s/^\\(.*\\)$/#\\1/g' /etc/fstab
                         </pre>
                     </div>
                 </div>
